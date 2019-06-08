@@ -13,15 +13,21 @@
     "@types/node": "12.0.4",
     "chai": "4.2.0",
     "chai-http": "4.3.0",
+    "copyfiles": "2.1.0",
     "express": "4.17.1",
     "npm-run-all": "4.1.5",
+    "rimraf": "2.6.3",
     "typescript": "3.5.1"
   },
   "devDependencies": {},
   "scripts": {
+    "clean": "rimraf dist/",
     "build": "tsc",
     "test": "mocha dist/test/**",
-    "start": "cd dist/src; functions-framework --target=cloudBuildNotifier"
+    "copy_deps": "copyfiles package.json env.yaml dist/src/",
+    "start": "cd dist/src; functions-framework --target=cloudBuildNotifier",
+    "_deploy": "cd dist/src; gcloud functions deploy cloudBuildNotifier --runtime nodejs10 --trigger-topic cloudbuild-result --env-vars-file env.yaml",
+    "deploy": "run-s clean build test copy_deps _deploy"
   },
   "author": "Takashi Matsuno",
   "license": "MIT"
