@@ -42,12 +42,15 @@ export async function sendSlackWebhook(webhook: IncomingWebhook, build: BuildSta
 
 export function cloudBuildNotifier(event: PubsubMessage, _ctx: Context) {
   try {
+    const webhook_url = process.env.SLACK_WEBHOOK_URL || '';
+    const username = process.env.SLACK_USER_NAME || 'Cloud Build Status';
+    const icon_emoji = process.env.SLACK_ICON_EMOJI || ':grin:';
+
     const build = JSON.parse(Buffer.from(event.data, 'base64').toString());
 
-    const webhook_url = process.env.SLACK_WEBHOOK_URL || '';
     const webhook = new IncomingWebhook(webhook_url, {
-      icon_emoji: ':cloudbuild:',
-      username: 'Cloud Build Status'
+      icon_emoji: icon_emoji,
+      username: username
     });
 
     (async () => {
