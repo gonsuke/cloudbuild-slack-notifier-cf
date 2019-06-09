@@ -17,15 +17,22 @@
     "sinon": "7.3.2",
     "typescript": "3.5.1"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "1.9.0",
+    "eslint": "5.16.0",
+    "eslint-config-prettier": "4.3.0",
+    "eslint-plugin-prettier": "3.1.0",
+    "prettier": "1.18.2"
+  },
   "scripts": {
     "clean": "rimraf dist/",
     "build": "tsc",
     "test": "mocha dist/test/**",
+    "lint": "eslint --ext .ts . --fix",
     "copy_deps": "copyfiles package.json env.yaml dist/src/",
     "start": "cd dist/src; functions-framework --target=cloudBuildNotifier",
     "_deploy": "cd dist/src; gcloud functions deploy cloudBuildNotifier --runtime nodejs10 --trigger-topic cloud-builds --env-vars-file env.yaml",
-    "deploy": "run-s clean build copy_deps _deploy"
+    "deploy": "run-s clean lint build test copy_deps _deploy"
   },
   "author": "Takashi Matsuno",
   "license": "MIT"
