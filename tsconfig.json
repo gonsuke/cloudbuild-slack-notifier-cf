@@ -15,8 +15,15 @@
     "strictNullChecks": true,
     "noImplicitThis": true,
     "noImplicitReturns": true,
+    "baseUrl": "./",
+    "paths": {
+      "gcp-pubsub-event": [
+        "types/gcp-pubsub-event"
+      ]
+    },
     "typeRoots": [
-      "node_modules/@types"
+      "node_modules/@types",
+      "types"
     ],
     "esModuleInterop": true,
   },
